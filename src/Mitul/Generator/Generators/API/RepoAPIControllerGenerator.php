@@ -23,6 +23,8 @@ class RepoAPIControllerGenerator implements GeneratorProvider
 
 	private $isScaffoldAPI = false;
 
+	private $repositoryNamespace ;
+
 
 	function __construct($commandData,$isScaffoldAPI = false)
 	{
@@ -32,6 +34,8 @@ class RepoAPIControllerGenerator implements GeneratorProvider
 		$this->commandData = $commandData;
 		$this->path = Config::get('generator.path_controller', app_path('Http/Controllers/'));
 		$this->namespace = Config::get('generator.namespace_controller', 'App\Http\Controllers');
+		$this->repositoryNamespace = Config::get('generator.namespace_repository', 'App\Libraries\Repositories');
+
 
 		// overwrite path and namespace if API controller generated along with scaffold controller
 		if($this->isScaffoldAPI)
@@ -60,6 +64,7 @@ class RepoAPIControllerGenerator implements GeneratorProvider
 	{
 		$templateData = str_replace('$NAMESPACE$', $this->namespace, $templateData);
 		$templateData = str_replace('$MODEL_NAMESPACE$', $this->commandData->modelNamespace, $templateData);
+		$templateData = str_replace('$REPOSITORY_NAMESPACE$', $this->repositoryNamespace, $templateData);
 
 		$templateData = str_replace('$MODEL_NAME$', $this->commandData->modelName, $templateData);
 		$templateData = str_replace('$MODEL_NAME_PLURAL$', $this->commandData->modelNamePlural, $templateData);
